@@ -12,7 +12,7 @@ interface User {
 }
 
 interface AuthContextType {
-  user: null;
+  user: User | null;
   isAuthenticated: boolean;
   login: (data: Userlogin) => Promise<void>;
 }
@@ -26,16 +26,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await api.get("/auth/me/");
+        setUser(response.data);
+      } catch (err) {
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const login = async (data: Userlogin) => {
     try {
-      const response = await api.post("/auth/login", data, {withCredentials: true });
+      const response = await api.post("/auth/login", data, {
+        withCredentials: true,
+      });
 
-      const { user } = response.data
+      const { user } = response.data;
 
       setUser(user);
       setIsAuthenticated(true);
-
     } catch (error: any) {
       console.error("Erro ao fazer login: ", error.response?.data);
       throw new Error("Credenciais inválidas ou problemas no servidor");
