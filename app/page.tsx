@@ -19,13 +19,16 @@ export default function Home() {
 
     try {
       await login(dados);
-      console.log("Login realizado com sucesso!"); 
       router.push("/orquestrador");
-      console.log("Depois do router.push");
+    
     } catch (error: any) {
       console.error("Credenciais inválidas.", error)
     }
   };
+
+  const handleCadastro = () => {
+    router.push("/cadastro")
+  }
 
   return (
     <div>
@@ -47,14 +50,14 @@ export default function Home() {
               value={dados.password}
               onChange={(e) => setDados({...dados, password: e.target.value})}
             />
-            <button type="submit" className="w-60 h-10 rounded-md border-2 border-black">
+            <button type="submit" className="w-60 h-10 rounded-md border-2 border-black hover:bg-gray-800 hover:text-white cursor-pointer">
               Login
             </button>
           </form>
           <hr className="w-md" />
           <div className="flex flex-col justify-center items-center gap-6">
             <p>Não tem conta?</p>
-            <button className="w-52 border-2 h-10 border-black rounded-md">
+            <button className="w-52 border-2 h-10 border-black rounded-md hover:bg-gray-800 hover:text-white cursor-pointer" onClick={handleCadastro}>
               Comece agora
             </button>
           </div>
