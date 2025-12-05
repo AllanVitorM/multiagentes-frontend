@@ -16,7 +16,7 @@ export default function Home() {
     e.preventDefault();
     try {
       await login(dados);
-      window.location.href = "/orquestrador";
+      router.push("/orquestrador");
     } catch (error: any) {
       console.error("Credenciais inválidas.", error);
     }
