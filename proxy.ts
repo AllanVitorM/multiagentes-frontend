@@ -6,7 +6,7 @@ const protectRoutes = ["/orquestrador"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  const token = req.cookies.get("token")?.value;
+  const token = req.cookies.get("access_token")?.value;
 
   if (!protectRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
