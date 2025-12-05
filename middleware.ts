@@ -4,7 +4,8 @@ import { jwtVerify } from "jose";
 
 const protectRoutes = ["/orquestrador"];
 
-export async function proxy(req: NextRequest) {
+export async function middleware
+(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("token")?.value;
 
