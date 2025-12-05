@@ -17,6 +17,7 @@ export default function Home() {
     console.log("handleLogin disparou");
     try {
       await login(dados);
+      console.log("entrou aqui?")
       router.push("/orquestrador");
     } catch (error: any) {
       console.error("Credenciais inválidas.", error);
