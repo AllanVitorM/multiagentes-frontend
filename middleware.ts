@@ -2,30 +2,31 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const protectRoutes = ["/orquestrador"];
+export async function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname;
 
-export async function middleware
-(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const token = req.cookies.get("token")?.value;
+  // Seu backend envia: "access_token"
+  const token = req.cookies.get("access_token")?.value;
 
-  if (!protectRoutes.some((route) => pathname.startsWith(route))) {
+  // Só protege /orquestrador
+  if (!pathname.startsWith("/orquestrador")) {
     return NextResponse.next();
   }
 
   if (!token) {
     return NextResponse.redirect(new URL("/", req.url));
   }
+
   try {
-    const secret = new TextEncoder().encode(process.env.NEXT_PUBLIC_JWT_SECRET);
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     await jwtVerify(token, secret);
     return NextResponse.next();
   } catch (error) {
-    console.error("Jwt inválido", error);
+    console.error("JWT inválido", error);
     return NextResponse.redirect(new URL("/", req.url));
   }
 }
 
 export const config = {
-  matcher: ['/orquestrador', '/orquestrador/:path*'],
+  matcher: ["/orquestrador/:path*"],
 };
