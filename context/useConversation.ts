@@ -18,6 +18,7 @@ type Message = {
   texto: string;
 };
 
+
 export function useConversation(userId: string) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<
@@ -92,18 +93,19 @@ export function useConversation(userId: string) {
     loadConversations();
   }, [userId]);
 
-  /** Seleciona conversa + join + histórico */
   const selectConversation = async (conversationId: string) => {
     setSelectedConversation(conversationId);
     selectedConversationRef.current = conversationId;
+
     setLoading(true);
+
     if (!userId) return;
 
     socketRef.current?.emit("join", conversationId);
 
-    const historico = await getConversaHistorico(conversationId);
+    const historico = await getConversaHistorico(conversationId) as any[];
 
-    const formatado = historico.map((m) => ({
+    const formatado: Message[] = historico.map((m) => ({
       autor: m.sender,
       texto: m.text,
     }));
