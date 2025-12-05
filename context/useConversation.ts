@@ -7,8 +7,14 @@ import {
   deleteConversa,
 } from "@/service/conversation";
 
+export interface Conversation {
+  _id: string;
+  title?: string;
+  messages?: any[];
+}
+
 export function useConversation(userId: string) {
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<
     string | null
   >(null);
@@ -29,7 +35,6 @@ export function useConversation(userId: string) {
     socketRef.current = socket;
 
     socket.on("connect", () => {
-
       if (selectedConversationRef.current) {
         socket.emit("join", selectedConversationRef.current);
       }
@@ -58,7 +63,6 @@ export function useConversation(userId: string) {
 
     fetchConversations();
   }, [userId]);
-
 
   /** Carrega conversas do usuário */
   const loadConversations = async () => {
@@ -89,7 +93,7 @@ export function useConversation(userId: string) {
     selectedConversationRef.current = conversationId;
     setLoading(true);
     if (!userId) return;
-    
+
     socketRef.current?.emit("join", conversationId);
 
     const historico = await getConversaHistorico(conversationId);
@@ -132,7 +136,6 @@ export function useConversation(userId: string) {
       selectedConversationRef.current = conversaId;
     }
 
-
     setMessages((prev) => [...prev, { autor: "user", texto: text }]);
 
     socketRef.current?.emit("message", {
@@ -145,9 +148,9 @@ export function useConversation(userId: string) {
   const deleteConversation = async (conversationId: string) => {
     await deleteConversa(conversationId);
 
-    setConversations(prev => prev.filter(c => c._id !== conversationId));
+    setConversations((prev) => prev.filter((c) => c._id !== conversationId));
 
-    if(selectedConversationRef.current === conversationId) {
+    if (selectedConversationRef.current === conversationId) {
       setSelectedConversation(null);
       setMessages([]);
     }
@@ -161,6 +164,6 @@ export function useConversation(userId: string) {
     sendMessage,
     selectConversation,
     startConversation,
-    deleteConversation
+    deleteConversation,
   };
 }
