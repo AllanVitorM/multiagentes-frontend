@@ -15,3 +15,7 @@ export interface CreateConversationPayload {
   userId: string;
   title: string;
 }
+
+export interface SendMessagePayload {
+  text: string;
+}

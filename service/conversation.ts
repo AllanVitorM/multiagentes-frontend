@@ -1,6 +1,10 @@
 import api from "./api";
-import { Conversation, Message } from "@/types/conversation";
-import { CreateConversationPayload } from "@/types/conversation";
+import {
+  Conversation,
+  Message,
+  CreateConversationPayload,
+  SendMessagePayload,
+} from "@/types/conversation";
 
 export const criarConversa = async (payload: CreateConversationPayload) => {
   const { data } = await api.post("/conversation", payload);
@@ -21,7 +25,10 @@ export const getConversaHistorico = async (
   return data;
 };
 
-export const MessageConversa = async (conversationId, payload) => {
+export const MessageConversa = async (
+  conversationId: string,
+  payload: SendMessagePayload
+) => {
   const { data } = await api.post(
     `/conversation/${conversationId}/message`,
     payload
@@ -29,7 +36,7 @@ export const MessageConversa = async (conversationId, payload) => {
   return data;
 };
 
-export const deleteConversa = async (conversationId) => {
+export const deleteConversa = async (conversationId: string) => {
   const { data } = await api.delete(`/conversation/${conversationId}`);
   return data;
 };
