@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const protectRoutes = ["/orquestrador"];
+// const protectRoutes = ["/orquestrador"];
 
 export async function proxy(req: NextRequest) {
   // const { pathname } = req.nextUrl;
@@ -12,9 +12,9 @@ export async function proxy(req: NextRequest) {
   //   return NextResponse.next();
   // }
 
-  if (!token) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+  // if (!token) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
   try {
     const secret = new TextEncoder().encode(process.env.jwt_secret);
     await jwtVerify(token, secret);
