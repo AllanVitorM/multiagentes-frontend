@@ -49,11 +49,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       });
 
       const { user } = response.data;
-
       setUser(user);
       setIsAuthenticated(true);
     } catch (error: any) {
-      console.error("Erro ao fazer login: ", error.response?.data);
+      console.error("Erro ao fazer login:", error);
+      console.error("Resposta completa:", error.response);
       throw new Error("Credenciais inválidas ou problemas no servidor");
     }
   };
