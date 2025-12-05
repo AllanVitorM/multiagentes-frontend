@@ -13,12 +13,17 @@ export interface Conversation {
   messages?: any[];
 }
 
+type Message = {
+  autor: "user" | "assistant";
+  texto: string;
+};
+
 export function useConversation(userId: string) {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<
     string | null
   >(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
   const socketRef = useRef<Socket | null>(null);
