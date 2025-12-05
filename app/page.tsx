@@ -8,17 +8,15 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Home() {
-  const router = useRouter();
   const [dados, setDados] = useState({ email: "", password: "" });
+  const router = useRouter();
   const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleLogin disparou");
     try {
       await login(dados);
-      console.log("entrou aqui?")
-      router.push("/orquestrador");
+      window.location.href = "/orquestrador";
     } catch (error: any) {
       console.error("Credenciais inválidas.", error);
     }
