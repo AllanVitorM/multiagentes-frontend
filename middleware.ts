@@ -27,5 +27,5 @@ export async function middleware
 }
 
 export const config = {
-  matcher: ["/orquestrador/:path*"],
+  matcher: ['/orquestrador', '/orquestrador/:path*'],
 };
