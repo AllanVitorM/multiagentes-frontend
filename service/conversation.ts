@@ -1,7 +1,8 @@
 import api from "./api";
-import { Conversation, Message } from "@/types/conversation"
+import { Conversation, Message } from "@/types/conversation";
+import { CreateConversationPayload } from "@/types/conversation";
 
-export const criarConversa = async (payload) => {
+export const criarConversa = async (payload: CreateConversationPayload) => {
   const { data } = await api.post("/conversation", payload);
   return data;
 };
